@@ -35,8 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteSettings.name,
       images: [
         {
-          url: "/images/hero-car.jpg",
-          alt: `${siteSettings.name} showroom vehicle`,
+          url: "/LIDU.png",
+          alt: `${siteSettings.name} logo`,
         },
       ],
     },
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: siteSettings.name,
       description: siteSettings.seo.description,
-      images: ["/images/hero-car.jpg"],
+      images: ["/LIDU.png"],
     },
   };
 }

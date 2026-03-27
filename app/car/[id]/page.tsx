@@ -38,8 +38,8 @@ export async function generateMetadata({
       url: absoluteUrl(`/car/${car.id}`),
       images: [
         {
-          url: car.images[0],
-          alt: car.name,
+          url: absoluteUrl("/LIDU.png"),
+          alt: `${car.brand} ${car.name} logo preview`,
         },
       ],
     },
@@ -47,7 +47,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${car.year} ${car.brand} ${car.name}`,
       description,
-      images: [car.images[0]],
+      images: [absoluteUrl("/LIDU.png")],
     },
   };
 }
