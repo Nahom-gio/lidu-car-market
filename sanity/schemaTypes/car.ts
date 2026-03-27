@@ -1,0 +1,140 @@
+import {defineArrayMember, defineField, defineType} from "sanity";
+import {CarImagesInput} from "@/sanity/components/CarImagesInput";
+
+export const carType = defineType({
+  name: "car",
+  title: "Cars",
+  type: "document",
+  fieldsets: [
+    {
+      name: "details",
+      title: "Extra Vehicle Details",
+      options: {collapsible: true, collapsed: true},
+    },
+    {
+      name: "advancedSpecs",
+      title: "Advanced Specs",
+      description: "Optional for EVs or more detailed Telegram/spec-sheet style posts.",
+      options: {collapsible: true, collapsed: true},
+    },
+    {
+      name: "finance",
+      title: "Finance Options",
+      options: {collapsible: true, collapsed: false},
+    },
+  ],
+  fields: [
+    defineField({name: "make", title: "Make", type: "string", validation: (rule) => rule.required()}),
+    defineField({name: "model", title: "Model", type: "string", validation: (rule) => rule.required()}),
+    defineField({
+      name: "title",
+      title: "Display Title",
+      type: "string",
+      description: "Optional. If left empty, the frontend will use the model as the main title.",
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "model",
+        maxLength: 96,
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "string",
+      description: "Enter the category label you want shown on the car and used in filters, for example SUV, Sedan, Hatchback, EV, or Luxury.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({name: "year", title: "Year", type: "number", validation: (rule) => rule.required()}),
+    defineField({name: "transmission", title: "Transmission", type: "string"}),
+    defineField({name: "fuelType", title: "Fuel Type", type: "string"}),
+    defineField({name: "mileage", title: "Mileage", type: "string"}),
+    defineField({name: "condition", title: "Condition", type: "string"}),
+    defineField({name: "color", title: "Color", type: "string"}),
+    defineField({name: "location", title: "Location", type: "string"}),
+    defineField({name: "trim", title: "Trim", type: "string", fieldset: "details"}),
+    defineField({name: "variant", title: "Variant / Edition", type: "string", fieldset: "details"}),
+    defineField({name: "packageNote", title: "Package Note", type: "string", fieldset: "details"}),
+    defineField({name: "bodyType", title: "Body Type", type: "string", fieldset: "details"}),
+    defineField({name: "driveType", title: "Drive Type", type: "string", fieldset: "details"}),
+    defineField({name: "engine", title: "Engine", type: "string", fieldset: "details"}),
+    defineField({
+      name: "optionNote",
+      title: "Option / Notes",
+      type: "text",
+      rows: 3,
+      description: "Use this for things like Full Option, turbo note, trim note, or special selling points.",
+    }),
+    defineField({name: "bodyStructure", title: "Body Structure", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "dimensions", title: "Dimensions", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "wheelbase", title: "Wheelbase", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "powerOutput", title: "Power Output", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "torque", title: "Torque", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "batteryStatus", title: "Battery Status", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "batteryType", title: "Battery Type", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "batteryCapacity", title: "Battery Capacity", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "rangeKm", title: "Range", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "chargingTime", title: "Charging Time", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "fuelConsumption", title: "Fuel Consumption", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "topSpeed", title: "Top Speed", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "acceleration", title: "Acceleration", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "plateNumber", title: "Plate Number", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "contactPhone", title: "Car Contact Phone", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "commissionNote", title: "Commission Note", type: "string", fieldset: "advancedSpecs"}),
+    defineField({name: "description", title: "Description", type: "text", rows: 4}),
+    defineField({
+      name: "images",
+      title: "Images",
+      type: "array",
+      of: [defineArrayMember({type: "image", options: {hotspot: true}})],
+      validation: (rule) => rule.min(1),
+      description: "Upload multiple images for one car. The first image is used as the cover image on the website.",
+      components: {
+        input: CarImagesInput,
+      },
+    }),
+    defineField({name: "priceBirr", title: "Price", type: "string"}),
+    defineField({name: "cashPriceBirr", title: "Cash Price", type: "string", fieldset: "finance"}),
+    defineField({name: "bankPriceBirr", title: "Bank Price", type: "string", fieldset: "finance"}),
+    defineField({name: "downPaymentBirr", title: "Down Payment", type: "string", fieldset: "finance"}),
+    defineField({name: "monthlyPaymentBirr", title: "Monthly Payment", type: "string", fieldset: "finance"}),
+    defineField({
+      name: "financingAvailable",
+      title: "Financing Available",
+      type: "boolean",
+      initialValue: false,
+      fieldset: "finance",
+    }),
+    defineField({
+      name: "inventoryStatus",
+      title: "Inventory Status",
+      type: "string",
+      options: {
+        list: ["available", "just-arrived", "low-stock", "sold-out"],
+      },
+      initialValue: "available",
+    }),
+  ],
+  preview: {
+    select: {
+      title: "title",
+      make: "make",
+      model: "model",
+      year: "year",
+      media: "images.0",
+    },
+    prepare(selection) {
+      const title = selection.title || selection.model || "Untitled car";
+      const subtitle = [selection.make, selection.year].filter(Boolean).join(" • ");
+      return {
+        title,
+        subtitle,
+        media: selection.media,
+      };
+    },
+  },
+});
