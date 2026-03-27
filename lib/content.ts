@@ -2,10 +2,6 @@ import {groq} from "next-sanity";
 
 import {cars, getCarById, type Car} from "@/data/cars";
 import {
-  aboutPage as localAboutPage,
-  homePage as localHomePage,
-  siteSettings as localSiteSettings,
-  testimonials as localTestimonials,
   type AboutPageContent,
   type HomePageContent,
   type SiteSettingsContent,
@@ -158,42 +154,59 @@ async function safeFetch<T>(query: string, params?: Record<string, unknown>) {
 
 function coalesceSiteSettings(input: Partial<SiteSettingsContent> | null | undefined): SiteSettingsContent {
   return {
-    ...localSiteSettings,
-    ...input,
+    name: input?.name ?? "",
+    shortName: input?.shortName ?? "",
+    city: input?.city ?? "",
+    phoneDisplay: input?.phoneDisplay ?? "",
+    phoneHref: input?.phoneHref ?? "",
+    whatsappHref: input?.whatsappHref ?? "",
+    address: input?.address ?? "",
+    directionsHref: input?.directionsHref ?? "",
+    mapEmbedHref: input?.mapEmbedHref ?? "",
+    socialLinks: input?.socialLinks ?? [],
     seo: {
-      ...localSiteSettings.seo,
+      title: "",
+      description: "",
       ...(input?.seo ?? {}),
     },
-    socialLinks: input?.socialLinks?.length ? input.socialLinks : localSiteSettings.socialLinks,
   };
 }
 
 function coalesceHomePage(input: Partial<HomePageContent> | null | undefined): HomePageContent {
   return {
     hero: {
-      ...localHomePage.hero,
+      eyebrow: "",
+      title: "",
+      description: "",
+      cta: "",
+      image: "",
+      imageAlt: "",
       ...(input?.hero ?? {}),
     },
     categories: {
-      ...localHomePage.categories,
+      eyebrow: "",
+      title: "",
       ...(input?.categories ?? {}),
-      items: input?.categories?.items?.length ? input.categories.items : localHomePage.categories.items,
+      items: input?.categories?.items ?? [],
     },
   };
 }
 
 function coalesceAboutPage(input: Partial<AboutPageContent> | null | undefined): AboutPageContent {
   return {
-    ...localAboutPage,
-    ...input,
-    whoWeAre: input?.whoWeAre?.length ? input.whoWeAre : localAboutPage.whoWeAre,
-    snapshotItems: input?.snapshotItems?.length ? input.snapshotItems : localAboutPage.snapshotItems,
-    pillars: input?.pillars?.length ? input.pillars : localAboutPage.pillars,
+    heroEyebrow: input?.heroEyebrow ?? "",
+    heroTitle: input?.heroTitle ?? "",
+    heroDescription: input?.heroDescription ?? "",
+    whoWeAreTitle: input?.whoWeAreTitle ?? "",
+    whoWeAre: input?.whoWeAre ?? [],
+    snapshotTitle: input?.snapshotTitle ?? "",
+    snapshotItems: input?.snapshotItems ?? [],
+    pillars: input?.pillars ?? [],
   };
 }
 
 function coalesceCars(input: Partial<Car>[] | null | undefined): Car[] {
-  if (!input?.length) return cars;
+  if (!input?.length) return [];
 
   return input
     .filter((car): car is Partial<Car> & {id: string; name: string; brand: string} => Boolean(car?.id && car?.name && car?.brand))
@@ -305,7 +318,7 @@ export async function getAboutPageContent(): Promise<AboutPageContent> {
 
 export async function getTestimonialsContent(): Promise<TestimonialContent[]> {
   const content = await safeFetch<TestimonialContent[]>(testimonialsQuery);
-  return content?.length ? content : localTestimonials;
+  return content ?? [];
 }
 
 export async function getCarsContent(): Promise<Car[]> {

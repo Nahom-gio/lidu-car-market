@@ -17,6 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(getSiteUrl()),
+    icons: {
+      icon: "/LIDU.png",
+      shortcut: "/LIDU.png",
+      apple: "/LIDU.png",
+    },
     title: {
       default: `${siteSettings.name} | Curated Showroom Vehicles`,
       template: `%s | ${siteSettings.name}`,
