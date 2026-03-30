@@ -23,6 +23,23 @@ function parseListParam(searchParams: URLSearchParams, key: string) {
   );
 }
 
+function normalizeFacetValue(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function getFacetOptions(values: string[]) {
+  const unique = new Map<string, string>();
+
+  values.forEach((value) => {
+    if (!value.trim()) return;
+
+    const normalized = normalizeFacetValue(value);
+    if (!unique.has(normalized)) unique.set(normalized, value.trim());
+  });
+
+  return Array.from(unique, ([value, label]) => ({ value, label }));
+}
+
 function parsePriceRangeParam(
   searchParams: URLSearchParams,
   minPrice: number,
@@ -103,8 +120,8 @@ export function FeaturedCars({ carsData }: { carsData: Car[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const categories: string[] = useMemo(() => [...new Set(carsData.map((car) => car.category))], [carsData]);
-  const fuelTypes: string[] = useMemo(() => [...new Set(carsData.map((car) => car.fuelType))], [carsData]);
+  const categories = useMemo(() => getFacetOptions(carsData.map((car) => car.category)), [carsData]);
+  const fuelTypes = useMemo(() => getFacetOptions(carsData.map((car) => car.fuelType)), [carsData]);
   const priceValues = useMemo(() => carsData.map((car) => getPriceValue(car.priceBirr)).filter(Boolean), [carsData]);
   const minPrice = priceValues.length ? Math.min(...priceValues) : 0;
   const maxPrice = priceValues.length ? Math.max(...priceValues) : 0;
@@ -138,8 +155,16 @@ export function FeaturedCars({ carsData }: { carsData: Car[] }) {
     const params = new URLSearchParams(searchParams.toString());
     isSyncingFromUrl.current = true;
     setSearchQuery(params.get("q") ?? "");
-    setSelectedCategories(parseListParam(params, "body").filter((item) => categories.includes(item)));
-    setSelectedFuel(parseListParam(params, "fuel").filter((item) => fuelTypes.includes(item)));
+    setSelectedCategories(
+      parseListParam(params, "body")
+        .map(normalizeFacetValue)
+        .filter((item) => categories.some((category) => category.value === item)),
+    );
+    setSelectedFuel(
+      parseListParam(params, "fuel")
+        .map(normalizeFacetValue)
+        .filter((item) => fuelTypes.some((fuel) => fuel.value === item)),
+    );
     setPriceRange(parsePriceRangeParam(params, minPrice, maxPrice, priceBands));
   }, [categories, fuelTypes, maxPrice, minPrice, priceBands, searchParams]);
 
@@ -167,10 +192,12 @@ export function FeaturedCars({ carsData }: { carsData: Car[] }) {
       const searchable = [car.name, car.brand, car.cityLocation, car.optionNote ?? "", car.trim ?? ""]
         .join(" ")
         .toLowerCase();
+      const normalizedCategory = normalizeFacetValue(car.category);
+      const normalizedFuelType = normalizeFacetValue(car.fuelType);
 
       if (query && !searchable.includes(query)) return false;
-      if (selectedCategories.length && !selectedCategories.includes(car.category)) return false;
-      if (selectedFuel.length && !selectedFuel.includes(car.fuelType)) return false;
+      if (selectedCategories.length && !selectedCategories.includes(normalizedCategory)) return false;
+      if (selectedFuel.length && !selectedFuel.includes(normalizedFuelType)) return false;
       if (carPrice < priceRange[0] || carPrice > priceRange[1]) return false;
 
       return true;
@@ -209,10 +236,10 @@ export function FeaturedCars({ carsData }: { carsData: Car[] }) {
       <FilterGroup title="Category">
         {categories.map((category) => (
           <FilterChip
-            key={category}
-            label={category}
-            active={selectedCategories.includes(category)}
-            onClick={() => toggle(selectedCategories, category, setSelectedCategories)}
+            key={category.value}
+            label={category.label}
+            active={selectedCategories.includes(category.value)}
+            onClick={() => toggle(selectedCategories, category.value, setSelectedCategories)}
           />
         ))}
       </FilterGroup>
@@ -220,10 +247,10 @@ export function FeaturedCars({ carsData }: { carsData: Car[] }) {
       <FilterGroup title="Fuel Type">
         {fuelTypes.map((fuel) => (
           <FilterChip
-            key={fuel}
-            label={fuel}
-            active={selectedFuel.includes(fuel)}
-            onClick={() => toggle(selectedFuel, fuel, setSelectedFuel)}
+            key={fuel.value}
+            label={fuel.label}
+            active={selectedFuel.includes(fuel.value)}
+            onClick={() => toggle(selectedFuel, fuel.value, setSelectedFuel)}
           />
         ))}
       </FilterGroup>
