@@ -13,6 +13,7 @@ const siteSettingsQuery = groq`
   *[_type == "siteSettings" && _id == "siteSettings"][0]{
     "name": coalesce(siteName, ""),
     shortName,
+    "logoUrl": logo.asset->url,
     city,
     phoneDisplay,
     phoneHref,
@@ -156,6 +157,7 @@ function coalesceSiteSettings(input: Partial<SiteSettingsContent> | null | undef
   return {
     name: input?.name ?? "",
     shortName: input?.shortName ?? "",
+    logoUrl: input?.logoUrl ?? "",
     city: input?.city ?? "",
     phoneDisplay: input?.phoneDisplay ?? "",
     phoneHref: input?.phoneHref ?? "",

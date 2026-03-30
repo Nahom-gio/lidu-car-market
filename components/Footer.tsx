@@ -53,6 +53,7 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
       icon: iconByLabel[social.label.toLowerCase()] ?? iconByLabel.facebook,
     })) ?? socials;
   const currentYear = new Date().getFullYear();
+  const logoSrc = siteSettings.logoUrl;
 
   return (
     <footer className="relative overflow-hidden border-t border-black/5 bg-[linear-gradient(180deg,rgba(248,244,238,0.96),rgba(239,232,220,0.96))] py-16 text-foreground">
@@ -65,7 +66,7 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
             <div className="space-y-6">
               <div className="inline-flex items-center gap-4 rounded-[1.5rem] border border-black/5 bg-white px-4 py-3 shadow-[0_14px_40px_rgba(45,31,15,0.08)]">
                 <div className="flex h-20 items-center justify-center rounded-[1.2rem] bg-[linear-gradient(180deg,#fffdf8,#f2eadf)] px-4 shadow-inner shadow-black/5">
-                  <img src="/LIDU.png" alt="LIDU logo" className="h-12 w-auto object-contain" />
+                  {logoSrc ? <img src={logoSrc} alt="LIDU logo" className="h-12 w-auto object-contain" /> : null}
                 </div>
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground/45">

@@ -8,6 +8,7 @@ export interface SocialLink {
 export interface SiteSettingsContent {
   name: string;
   shortName: string;
+  logoUrl: string;
   city: string;
   phoneDisplay: string;
   phoneHref: string;

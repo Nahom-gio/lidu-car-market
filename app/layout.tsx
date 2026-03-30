@@ -14,14 +14,17 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettingsContent();
+  const logoSrc = siteSettings.logoUrl;
 
   return {
     metadataBase: new URL(getSiteUrl()),
-    icons: {
-      icon: "/LIDU.png",
-      shortcut: "/LIDU.png",
-      apple: "/LIDU.png",
-    },
+    icons: logoSrc
+      ? {
+          icon: logoSrc,
+          shortcut: logoSrc,
+          apple: logoSrc,
+        }
+      : undefined,
     title: {
       default: `${siteSettings.name} | Curated Showroom Vehicles`,
       template: `%s | ${siteSettings.name}`,
@@ -33,18 +36,20 @@ export async function generateMetadata(): Promise<Metadata> {
       title: siteSettings.name,
       description: siteSettings.seo.description,
       siteName: siteSettings.name,
-      images: [
-        {
-          url: "/LIDU.png",
-          alt: `${siteSettings.name} logo`,
-        },
-      ],
+      images: logoSrc
+        ? [
+            {
+              url: logoSrc,
+              alt: `${siteSettings.name} logo`,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: siteSettings.name,
       description: siteSettings.seo.description,
-      images: ["/LIDU.png"],
+      images: logoSrc ? [logoSrc] : undefined,
     },
   };
 }

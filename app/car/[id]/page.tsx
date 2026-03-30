@@ -18,7 +18,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const car = await getCarContentById(params.id);
+  const [car, siteSettings] = await Promise.all([getCarContentById(params.id), getSiteSettingsContent()]);
   if (!car) {
     return {
       title: "Vehicle Not Found",
@@ -27,6 +27,7 @@ export async function generateMetadata({
   }
 
   const description = getCarSeoDescription(car);
+  const logoSrc = siteSettings.logoUrl ? absoluteUrl(siteSettings.logoUrl) : "";
 
   return {
     title: `${car.year} ${car.brand} ${car.name}`,
@@ -36,18 +37,20 @@ export async function generateMetadata({
       description,
       type: "article",
       url: absoluteUrl(`/car/${car.id}`),
-      images: [
-        {
-          url: absoluteUrl("/LIDU.png"),
-          alt: `${car.brand} ${car.name} logo preview`,
-        },
-      ],
+      images: logoSrc
+        ? [
+            {
+              url: logoSrc,
+              alt: `${car.brand} ${car.name} logo preview`,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: `${car.year} ${car.brand} ${car.name}`,
       description,
-      images: [absoluteUrl("/LIDU.png")],
+      images: logoSrc ? [logoSrc] : undefined,
     },
   };
 }

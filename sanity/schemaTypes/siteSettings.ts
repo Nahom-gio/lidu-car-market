@@ -18,6 +18,15 @@ export const siteSettingsType = defineType({
       description: "Not currently used on the frontend. You can leave this empty.",
     }),
     defineField({
+      name: "logo",
+      title: "Logo",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      description: "Main brand logo used in the navbar, footer, and site metadata.",
+    }),
+    defineField({
       name: "city",
       title: "City",
       type: "string",
