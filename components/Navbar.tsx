@@ -41,7 +41,7 @@ export function Navbar({ siteSettings }: { siteSettings: SiteSettingsContent }) 
           <div className="relative flex items-center justify-between gap-4">
             <button onClick={() => scrollTo("home")} className="flex items-center gap-3 text-left">
               <div className="rounded-2xl bg-white/95 px-3 py-2 shadow-lg shadow-black/10">
-                <img src="/LIDU.png" alt="LIDU logo" className="h-9 w-auto object-contain sm:h-10" />
+                <img src="/LIDU.png" alt="LIDU logo" className="h-12 w-auto object-contain sm:h-14" />
               </div>
               <div className="hidden sm:block">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground/45">
