@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 
 import type { SiteSettingsContent } from "@/data/site-content";
 
@@ -52,42 +52,106 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
       ...social,
       icon: iconByLabel[social.label.toLowerCase()] ?? iconByLabel.facebook,
     })) ?? socials;
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary py-12 text-primary-foreground">
+    <footer className="relative overflow-hidden border-t border-black/5 bg-[linear-gradient(180deg,rgba(248,244,238,0.96),rgba(239,232,220,0.96))] py-16 text-foreground">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,rgba(191,141,72,0.18),transparent_60%)]" />
       <div className="mx-auto max-w-7xl section-padding">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-lg shadow-black/15">
-            <img src="/LIDU.png" alt="LIDU logo" className="h-14 w-auto object-contain" />
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[rgba(255,252,248,0.8)] p-6 shadow-[0_25px_80px_rgba(66,45,20,0.12)] backdrop-blur md:p-8">
+          <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-[radial-gradient(circle_at_center,rgba(191,141,72,0.14),transparent_68%)] lg:block" />
+
+          <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)] lg:gap-12">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-4 rounded-[1.5rem] border border-black/5 bg-white px-4 py-3 shadow-[0_14px_40px_rgba(45,31,15,0.08)]">
+                <div className="flex h-20 items-center justify-center rounded-[1.2rem] bg-[linear-gradient(180deg,#fffdf8,#f2eadf)] px-4 shadow-inner shadow-black/5">
+                  <img src="/LIDU.png" alt="LIDU logo" className="h-12 w-auto object-contain" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground/45">
+                    {siteSettings.city}
+                  </p>
+                  <p className="mt-1 text-xl font-semibold text-foreground">{siteSettings.name}</p>
+                </div>
+              </div>
+
+              <div className="max-w-xl space-y-3">
+                <p className="text-sm font-medium uppercase tracking-[0.24em] text-accent">Lidu Car Market</p>
+                <p className="text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+                  Curated vehicles, direct contact, and a showroom that feels easy to trust.
+                </p>
+                <p className="max-w-lg text-sm leading-7 text-foreground/65">
+                  Reach the team, check directions, or follow current listings on social platforms without digging
+                  through the site.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a
+                  href={siteSettings.phoneHref}
+                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 font-medium text-background transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  <Phone className="h-4 w-4" />
+                  Call {siteSettings.phoneDisplay}
+                </a>
+                <a
+                  href={siteSettings.directionsHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-5 py-3 font-medium text-foreground transition-colors hover:border-accent/40 hover:text-accent"
+                >
+                  <MapPin className="h-4 w-4" />
+                  Get directions
+                </a>
+              </div>
+            </div>
+
+            <div className="grid gap-5 self-start">
+              <div className="rounded-[1.5rem] border border-black/6 bg-[rgba(255,255,255,0.72)] p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-foreground/45">Visit or call</p>
+                <div className="mt-4 grid gap-4 text-sm">
+                  <div className="rounded-2xl bg-white/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-foreground/40">Phone</p>
+                    <a
+                      href={siteSettings.phoneHref}
+                      className="mt-2 inline-block text-base font-semibold text-foreground transition-colors hover:text-accent"
+                    >
+                      {siteSettings.phoneDisplay}
+                    </a>
+                  </div>
+                  <div className="rounded-2xl bg-white/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-foreground/40">Address</p>
+                    <p className="mt-2 text-base font-semibold leading-7 text-foreground">{siteSettings.address}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[1.5rem] border border-black/6 bg-[rgba(255,255,255,0.72)] p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-foreground/45">Social</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  {resolvedSocials.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-4 py-2.5 text-sm font-medium text-foreground/72 transition-colors hover:border-accent/40 hover:text-accent"
+                    >
+                      <span className="text-foreground/75">{social.icon}</span>
+                      <span>{social.label}</span>
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {resolvedSocials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/10 text-primary-foreground/60 transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                {social.icon}
-              </a>
-            ))}
+          <div className="relative mt-8 flex flex-col gap-3 border-t border-black/8 pt-5 text-sm text-foreground/55 md:flex-row md:items-center md:justify-between">
+            <p>&copy; {currentYear} {siteSettings.shortName || siteSettings.name}. All rights reserved.</p>
+            <p>Showroom based in {siteSettings.city}.</p>
           </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-primary-foreground/60">
-            <span className="flex items-center gap-1.5">
-              <Phone className="h-3.5 w-3.5" />
-              {siteSettings.phoneDisplay}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5" />
-              {siteSettings.address}
-            </span>
-          </div>
-
-          <p className="text-xs text-primary-foreground/40">&copy; 2026 LIDU. All rights reserved.</p>
         </div>
       </div>
     </footer>
