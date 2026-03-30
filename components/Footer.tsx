@@ -56,21 +56,21 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
   const logoSrc = siteSettings.logoUrl;
 
   return (
-    <footer className="border-t border-black/6 bg-[rgba(250,246,239,0.82)] py-10 text-foreground">
-      <div className="mx-auto max-w-7xl section-padding">
-        <div className="flex flex-col gap-6 rounded-[1.75rem] border border-white/80 bg-[rgba(255,252,248,0.78)] px-5 py-6 shadow-[0_18px_50px_rgba(66,45,20,0.08)] backdrop-blur sm:px-6">
+    <footer className="w-full border-t border-black/6 bg-[rgba(250,246,239,0.9)] text-foreground">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-5 py-4">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               {logoSrc ? (
-                <div className="flex h-16 items-center justify-center rounded-[1.1rem] bg-white px-4 shadow-sm shadow-black/5">
-                  <img src={logoSrc} alt="LIDU logo" className="h-10 w-auto object-contain" />
+                <div className="flex h-12 items-center justify-center rounded-xl bg-white px-3 shadow-sm shadow-black/5">
+                  <img src={logoSrc} alt="LIDU logo" className="h-7 w-auto object-contain" />
                 </div>
               ) : null}
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-foreground/40">
                   {siteSettings.city}
                 </p>
-                <p className="mt-1 text-lg font-semibold text-foreground">{siteSettings.name}</p>
+                <p className="mt-1 text-base font-semibold text-foreground">{siteSettings.name}</p>
               </div>
             </div>
 
@@ -92,7 +92,7 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 border-t border-black/8 pt-4 text-sm text-foreground/55 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2 border-t border-black/8 pt-3 text-sm text-foreground/55 md:flex-row md:items-center md:justify-between">
             <p>&copy; {currentYear} {siteSettings.shortName || siteSettings.name}. All rights reserved.</p>
             <p>{siteSettings.city}</p>
           </div>
