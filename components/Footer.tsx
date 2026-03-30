@@ -58,23 +58,20 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
   return (
     <footer className="w-full border-t border-black/6 bg-[rgba(250,246,239,0.9)] text-foreground">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 py-4">
-          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
+        <div className="py-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
               {logoSrc ? (
-                <div className="flex h-12 items-center justify-center rounded-xl bg-white px-3 shadow-sm shadow-black/5">
-                  <img src={logoSrc} alt="LIDU logo" className="h-7 w-auto object-contain" />
+                <div className="flex h-11 items-center justify-center rounded-lg bg-white px-3 shadow-sm shadow-black/5">
+                  <img src={logoSrc} alt="LIDU logo" className="h-6 w-auto object-contain" />
                 </div>
               ) : null}
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-foreground/40">
-                  {siteSettings.city}
-                </p>
-                <p className="mt-1 text-base font-semibold text-foreground">{siteSettings.name}</p>
+                <p className="text-sm font-semibold text-foreground">{siteSettings.name}</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {resolvedSocials.map((social) => (
                 <a
                   key={social.label}
@@ -82,7 +79,7 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-4 py-2.5 text-sm font-medium text-foreground/72 transition-colors hover:border-accent/40 hover:text-accent"
+                  className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3.5 py-2 text-sm font-medium text-foreground/72 transition-colors hover:border-accent/40 hover:text-accent"
                 >
                   <span className="text-foreground/75">{social.icon}</span>
                   <span>{social.label}</span>
@@ -92,9 +89,9 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 border-t border-black/8 pt-3 text-sm text-foreground/55 md:flex-row md:items-center md:justify-between">
+          <div className="mt-4 flex flex-col gap-2 border-t border-black/8 pt-3 text-sm text-foreground/55 md:flex-row md:items-center md:justify-between">
             <p>&copy; {currentYear} {siteSettings.shortName || siteSettings.name}. All rights reserved.</p>
-            <p>{siteSettings.city}</p>
+            <p>Follow us for new arrivals.</p>
           </div>
         </div>
       </div>
