@@ -57,7 +57,7 @@ export function Footer({ siteSettings }: { siteSettings: SiteSettingsContent }) 
     <footer className="bg-primary py-12 text-primary-foreground">
       <div className="mx-auto max-w-7xl section-padding">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-lg shadow-black/15">
             <img src="/LIDU.png" alt="LIDU logo" className="h-14 w-auto object-contain" />
           </div>
 
